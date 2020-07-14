@@ -1,0 +1,28 @@
+# NOTE: Remember to check each update for language file changes or you may receive 'null' messages in chat.
+
+could-not-find-user: "&7Could not find the user &c%player%"
+no-permission: "&7You do not have permission to execute this command."
+collectable-rewards-notification: "&c&lHEY! &cYou have rewards available to claim. Check them out in /quests rewards."
+
+inactive: "&cInactive"
+completed: "&aCompleted"
+no-attempts: '&cYou have used all your attempts'
+
+player-info:
+  - "&c%player%'s &7Quest Stats:"
+  - "&8- &cCompleted: &f%quests_completed%&7/&f%total_quests%"
+
+quest-reset: '&cThere have been some quests that have reset.'
+
+quests:
+  # The base message will be used for all quests unless another message is set.
+  base-message-progressed: "&8[&cQuests&8] &7You progressed the quest &c%quest_name% &8(&c%progress%&7/&8&c%required_progress%&8)"
+  base-message-completed: "&8[&cQuests&8] &7You completed the quest &c%quest_name%"
+  base-message-sub-completed: "&8[&cQuests&8] &7You completed the sub quest &c%sub_quest_name%&7 of &c%quest_name%"
+
+  # The message set below will overwrite the one set as the base message.
+  # <quest name>-progressed: "<Your  message>"
+  # <quest-name>-completed: "<Your Message>"
+  # These are here as examples, and you can make as many as necessary.
+  askyblock_createisland-progressed: "&cQuests >> &7Custom ASkyblock progression message :D. &8(&c%progress%&7/&8%required_progress%&8)"
+  askyblock_createisland-completed: "&cQuests >> &7You completed the ASkyblock island quest!"

@@ -1,0 +1,26 @@
+# LuxuryQuests menus/confirm.yml
+
+menu-title: 'Confirm'
+menu-rows: 1
+
+menu:
+  'confirm':
+    slots: start...3
+    item:
+      material: lime_stained_glass_pane:0
+      name: '&aConfirm'
+    actions:
+      - '[custom] {confirm}'
+  'deny':
+    slots: 5...end
+    item:
+      material: lime_stained_glass_pane:0
+      name: '&cDeny'
+    actions:
+      - '[custom] {deny}'
+  '4':
+    item:
+      material: book:0
+      amount: 1
+      name: '&7%question%'
+    actions: []

@@ -1,0 +1,47 @@
+name: LuxuryQuests
+version: 1.8
+main: io.github.luxuryquests.QuestsPlugin
+api-version: 1.13
+authors: [Hyfe, Zak Shearman]
+description: An actual good quests plugin.
+
+softdepend:
+  - AdvancedEnchantments
+  - ASkyBlock
+  - AuctionHouse
+  - Bedwars1058
+  - BuildBattle
+  - ChatReaction
+  - ChestShop
+  - Clans
+  - CrateReloaded
+  - CratesPlus
+  - CrazyCrates
+  - CrazyEnvoy
+  - DiscordMinecraft
+  - Factions
+  - Jobs
+  - KoTH
+  - Lands
+  - PlaceholderAPI
+  - MoneyHunters
+  - PlotSquared
+  - ProCosmetics
+  - StrikePractice
+  - SuperiorSkyblock2
+  - SkillAPI
+  - TokenEnchant
+  - USkyBlock
+  - Votifier
+
+commands:
+  lqa:
+    description: LuxuryQuests admin command
+    aliases: [luxuryquestsadmin, luxuryquestsa, questsa, questsadmin]
+  lq:
+    description: LuxuryQuests user command
+    aliases: [luxuryquests, lquests, luxuryq, luq, quests]
+
+permissions:
+  lq.admin:
+    description: LuxuryQuests admin permission

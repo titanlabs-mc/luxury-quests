@@ -1,0 +1,31 @@
+# LuxuryQuests menus/standard-quests.yml
+
+menu-title: 'Quests'
+menu-rows: 5
+
+quest-slots:
+  slots: '11...15, 20...24'
+
+menu:
+  '40': # The slot in the menu
+    item: # The item that will be displayed in the menu.
+      material: book:0
+      name: '&cQuest Information'
+      lore:
+        - '&7Click on a quest to activate it.'
+        - '&7Perform the quest actions to complete the quest.'
+        - '&7Click on the quest again to receive your rewards.'
+    actions: [] # This quest does not have any actions.
+  '39':
+    item:
+      material: arrow:0
+      name: '&ePrevious Page'
+    actions:
+      - '[menu](page = 1) {portal}' # If the user is on the first page, it will open the portal menu.
+      - '[menu](page ! 1) {previous-page}' # If the user is not on the first page, it will take them to the previous page.
+  '41':
+    item:
+      material: arrow:0
+      name: '&eNext Page'
+    actions:
+      - '[menu] {next-page}'

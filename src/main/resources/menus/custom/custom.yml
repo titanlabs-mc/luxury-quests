@@ -1,0 +1,17 @@
+# LuxuryQuests menus/custom/custom.yml
+
+menu-title: 'Custom Menu'
+menu-rows: 3
+
+menu:
+  '13': # The slot in the menu
+    item: # The item that will be displayed in the menu.
+      material: book:0
+      name: '&cCustom Item'
+      lore:
+        - '&7In a custom menu'
+    actions: []
+  'filler':
+    slots: 'fill'
+    item:
+      material: black_stained_glass_pane:0

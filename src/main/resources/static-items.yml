@@ -1,0 +1,17 @@
+quest-no-permission-item: # This item is displayed as the quest if the player does not have the required permission.
+  enabled: true
+  item:
+    material: barrier:0
+    name: '&c&m%quest_name%'
+    lore:
+      - '&cYou do not have the required permission'
+      - '&cTo start this quest.'
+
+quest-not-unlocked-item: # This item is displayed as the quest item if the player has not completed the required quests to start the viewed quests.
+  enabled: true
+  item:
+    material: barrier:0
+    name: '&c&m%quest_name%'
+    lore:
+      - '&cYou must complete the required quests'
+      - '&cTo start this quest.'

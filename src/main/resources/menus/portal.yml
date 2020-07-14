@@ -1,0 +1,40 @@
+# LuxuryQuests menus/portal.yml
+
+menu-title: 'Portal'
+menu-rows: 1
+
+menu:
+  '2':
+    item:
+      material: writable_book:0
+      amount: 1
+      name: '&cStandard Quests'
+      lore:
+        - ''
+        - '&7Click this to explore some quests.'
+    actions:
+      - '[menu] {standard-quests}'
+  '4':
+    item:
+      material: writable_book:0
+      amount: 1
+      name: '&cDaily Quests'
+      lore:
+        - ''
+        - '&7These quests are limited, '
+        - '&7they reset every &c24 hrs&7.'
+        - '&7Next reset is in &c%daily_time_left%'
+    actions:
+      - '[menu] {daily-quests}'
+  '6':
+    item:
+      material: writable_book:0
+      amount: 1
+      name: '&cWeekly Quests'
+      lore:
+        - ''
+        - '&7These quests are limited, '
+        - '&7they reset every &c7 days&7.'
+        - '&7Next reset is in &c%weekly_time_left%'
+    actions:
+      - '[menu] {weekly-quests}'

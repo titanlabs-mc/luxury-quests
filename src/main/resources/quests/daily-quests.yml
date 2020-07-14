@@ -1,0 +1,138 @@
+settings:
+  reset-interval: 1
+  timezone: Europe/Oslo
+  reset-time: '21:00'
+  quest-amount: 10
+'1': # A quest section.
+  name: 'Miner' # The name given to the quest.
+  item: # The item that will be displayed in menus.
+    material: diamond_pickaxe:0
+    amount: 1
+    name: '&cHard - Miner'
+    lore:
+      - '&7Mine &c25 coal&7,'
+      - '&c20 diamonds &7and &c30 gold'
+      - '&7to complete this quest!'
+      - ''
+      - '&7Progress &c%total_progress%&7/&c%required_progress%'
+  rewards: ['1', '2'] # The ID of the rewards to give, set up in then rewards.yml.
+  '1': # The quest objectives.
+    name: 'Coal Miner' # The name of the objective.
+    type: block-break # The type of quest
+    variable: coal_ore:0 # The block the player must break.
+    required-progress: 25 # The amount of times the player should break the coal ore block.
+  '2': # The quest objectives.
+    name: 'Gold Miner'
+    type: block-break
+    variable: gold_ore:0
+    required-progress: 25
+  '3': # The quest objectives.
+    name: 'Diamond Miner'
+    type: block-break
+    variable: diamond_ore:0
+    required-progress: 25
+'2':
+  name: 'Daily - Rich Man''s World'
+  item:
+    material: gold_ingot:0
+    name: '&cModerate - Miner'
+    lore:
+      - '&7Place &c10 gold blocks'
+      - '&7to complete this quest'
+      - ''
+      - '&7Progress &c%total_progress%&7/&c%required_progress%'
+  rewards: ['1', '2']
+  '1':
+    name: 'Rich Man''s World'
+    type: block-place
+    variable: gold_block:0
+    required-progress: 10
+'3':
+  name: 'Daily - Social'
+  item:
+    material: book:0
+    name: '&cEasy - Social'
+    lore:
+      - '&7Say &c''Hello everyone'''
+      - '&7to complete this quest'
+      - ''
+      - '&7Progress &c%total_progress%&7/&c%required_progress%'
+  rewards: ['1', '2']
+  '1':
+    name: 'Social'
+    type: chat
+    variable: 'Hello everyone'
+    required-progress: 1
+'4':
+  name: 'Curious'
+  required-quests:
+    - '3' # This means you must have completed the Daily - Social quest in order to complete this quest.
+  required-permissions:
+    - 'example.permission' # This means you must have the example.permission permission in order to complete this quest.
+  locked-item:
+    material: arrow:0
+    name: '&m&cModerate - Curious'
+    lore:
+      - ''
+  item:
+    material: arrow:0
+    name: '&cModerate - Curious'
+    lore:
+      - '&7Right-Click an &cobsidian block'
+      - '&7to complete this quest'
+      - ''
+      - '&7Progress &c%total_progress%&7/&c%required_progress%'
+  rewards: ['1', '2']
+  '1':
+    name: 'Curious'
+    type: right-click-block
+    variable: obsidian:0
+    required-progress: 1
+'5':
+  name: 'Daily - God'
+  item:
+    material: enchanted_golden_apple:0
+    name: '&cModerate - God'
+    lore:
+      - '&7Eat an &cenchanted golden apple'
+      - '&7to complete this quest'
+      - ''
+      - '&7Progress &c%total_progress%&7/&c%required_progress%'
+  rewards: ['1', '2']
+  '1':
+    name: 'God'
+    type: consume
+    variable: enchanted_golden_apple:0
+    required-progress: 1
+'6':
+  name: 'Daily - Worker'
+  item:
+    material: crafting_table:0
+    name: '&cModerate - Worker'
+    lore:
+      - '&7Craft a &cdiamond pickaxe'
+      - '&7to complete this quest'
+      - ''
+      - '&7Progress &c%total_progress%&7/&c%required_progress%'
+  rewards: ['1', '2']
+  '1':
+    name: 'Worker'
+    type: craft
+    variable: diamond_pickaxe:0
+    required-progress: 1
+'7':
+  name: 'Daily - Criminal'
+  item:
+    material: redstone:0
+    name: '&cModerate - Criminal'
+    lore:
+      - '&7Deal &c1000 damage'
+      - '&7to complete this quest'
+      - ''
+      - '&7Progress &c%total_progress%&7/&c%required_progress%'
+  rewards: ['1', '2']
+  '1':
+    name: 'Criminal'
+    type: damage-player
+    variable: 'none'
+    required-progress: 1000

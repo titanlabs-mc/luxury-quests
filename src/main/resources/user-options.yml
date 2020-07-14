@@ -1,0 +1,18 @@
+default-options: # This will be what a user's options will be set to by default.
+
+  # The way that users are alerted to quest progression or completion.
+  # chat -> Sends a message to the player.
+  # action bar -> Puts a message above the player's hotbar (text above the hotbar).
+  # none -> Does not take any notification action.
+  completion-notification-type: action bar & chat # Available options: chat, action bar, action bar & chat and none
+  progression-notification-type: action bar & chat # Available options: chat, action bar, action bar & chat and none
+
+  # Whether a player will receive notification when a quest is reset
+  receive-reset-notifications: true
+
+  # Whether a user's quests will be started automatically.
+  auto-start-quests: false
+
+  # Whether the user will have to click to claim rewards or receive automatically.
+  # If disabled in quest-settings, this option will not apply.
+  auto-receive-rewards: true

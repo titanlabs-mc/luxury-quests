@@ -1,0 +1,42 @@
+# LuxuryQuests menus/rewards.yml
+
+menu-title: 'Rewards'
+menu-rows: 3
+locked: false # If this value is set to true, the menu will not be opened when called.
+
+reward-slots:
+  slots: 'start...17'
+
+reward-items:
+  material: 'paper:0'
+  name: '&7Reward: &c%reward_name%'
+  lore:
+    - '&7You will be granted with the follow rewards'
+    - '%reward_lore_addon%'
+    - ''
+    - '&7&o(( Click to &c&oclaim&7&o this reward ))'
+
+menu:
+  '21':
+    item:
+      material: arrow:0
+      name: '&ePrevious Page'
+    actions:
+      - '[menu](page = 1) {portal}' # If the user is on the first page, it will open the portal menu.
+      - '[menu](page ! 1) {previous-page}' # If the user is not on the first page, it will take them to the previous page.
+  '23':
+    item:
+      material: arrow:0
+      name: '&eNext Page'
+    actions:
+      - '[menu] {next-page}'
+  '22':
+    item:
+      material: book:0
+      name: '&cReward Information'
+      lore:
+        - '&7&o(( Click the unclaimed rewards above to &cclaim&7 them ))'
+  'filler':
+    slots: fill
+    item:
+      material: stained_glass_pane:15

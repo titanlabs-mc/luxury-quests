@@ -1,0 +1,25 @@
+'1':
+  type: command
+  name: 'First Reward'
+  lore-addon:
+    - '&7 - &cA cool message'
+  commands:
+    - 'msg %player% Epic!' # Do not include the starting "/" of the command.
+  actions: # If you don't want to perform any actions, set to actions: []
+    - '[menu] {rewards}'
+
+'2':
+  type: item
+  items:
+    '1': # The first item reward (required)
+      material: diamond_block:0
+      amount: 64
+      name: '' # If left null, the item will have the default Minecraft name.
+      lore: [] # If left null, the item will have no lore.
+      enchanted: true # Whether the item will have an enchantment 'glow'.
+    '2': # The second item reward (not required) -> You can have more than two.
+      material: coal_block:0
+      amount: 64
+      name: ''
+      lore:
+        - '&7An &cepic &7lore, for an &cepic &7coal block'
