@@ -29,6 +29,9 @@ public class QuestValidationStep {
                 }
                 Variable subVariable = subQuest.getVariable();
                 int subQuestProgress = this.controller.getSubQuestProgress(user, quest, subQuest);
+                if (overrideUpdate && subQuestProgress == progress) {
+                    continue;
+                }
                 if (subQuestProgress < subQuest.getRequiredProgress()
                         && questResult.isEligible(player, subVariable)
                         && this.controller.isTimedQuestValid(user, quest)

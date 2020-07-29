@@ -23,11 +23,6 @@ public class LoginQuest extends QuestExecutor {
         if (!player.isOnline()) {
             return;
         }
-
-        if (this.plugin.getConfig("settings").bool("database-settings.bungee-fix")) {
-            Bukkit.getScheduler().runTaskLater(this.plugin, () -> super.execute("login", player, QuestResult::none), 20);
-        } else {
-            super.execute("login", player, QuestResult::none);
-        }
+        Bukkit.getScheduler().runTaskLater(this.plugin, () -> super.execute("login", player, QuestResult::none), 40);
     }
 }

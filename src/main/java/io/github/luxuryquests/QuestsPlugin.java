@@ -21,8 +21,8 @@ import io.github.luxuryquests.menu.service.MenuIllustrator;
 import io.github.luxuryquests.menu.service.action.Action;
 import io.github.luxuryquests.objects.user.User;
 import io.github.luxuryquests.placeholders.PlaceholderApiPlaceholders;
-import io.github.luxuryquests.quests.workers.pipeline.QuestPipeline;
 import io.github.luxuryquests.quests.workers.QuestReset;
+import io.github.luxuryquests.quests.workers.pipeline.QuestPipeline;
 import io.github.luxuryquests.registry.ArgumentRegistry;
 import io.github.luxuryquests.registry.QuestRegistry;
 import io.github.luxuryquests.storage.ResetStorage;
@@ -40,6 +40,7 @@ import java.nio.file.Path;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public final class QuestsPlugin extends SpigotPlugin {
     private static Api api;
@@ -58,6 +59,7 @@ public final class QuestsPlugin extends SpigotPlugin {
     private Storage<User> storage;
     private Storage<QuestReset> resetStorage;
     private Cache<String, Map<Integer, Set<Action>>> actionCache;
+    private AtomicInteger placeholderRuns = new AtomicInteger();
     private Lang lang;
     private Api localApi;
 
@@ -180,7 +182,6 @@ public final class QuestsPlugin extends SpigotPlugin {
         this.localApi = new Api(this);
         api = this.localApi;
 
-        this.placeholders();
         this.getSavingController().addSavable(this.userCache, this.getConfig("settings").integer("storage-options.auto-save-interval") * 20);
 
         this.registerRegistries(new ArgumentRegistry(this), this.questRegistry);
@@ -188,6 +189,7 @@ public final class QuestsPlugin extends SpigotPlugin {
         this.runSync(() -> {
             this.getCommandBase().getCommands().clear();
             this.registerCommands(new LqaCommand(this), new LqCommand(this));
+            this.placeholders();
         });
     }
 
@@ -196,6 +198,8 @@ public final class QuestsPlugin extends SpigotPlugin {
         this.userCache.save();
         this.userCache.getSubCache().invalidateAll();
         this.typeLoader.saveQuestResets();
+        this.storage.closeBack();
+        this.resetStorage.closeBack();
     }
 
     public void reload() {
@@ -208,6 +212,10 @@ public final class QuestsPlugin extends SpigotPlugin {
     private void placeholders() {
         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             new PlaceholderApiPlaceholders(this).register();
+        }
+        if (this.placeholderRuns.intValue() < 10) {
+            this.placeholderRuns.getAndIncrement();
+            Bukkit.getScheduler().runTaskLater(this, this::placeholders, 100);
         }
     }
 

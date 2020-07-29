@@ -1,7 +1,7 @@
 name: LuxuryQuests
-version: 1.8
+version: 1.9
 main: io.github.luxuryquests.QuestsPlugin
-api-version: 1.13
+api-version: 1.16
 authors: [Hyfe, Zak Shearman]
 description: An actual good quests plugin.
 

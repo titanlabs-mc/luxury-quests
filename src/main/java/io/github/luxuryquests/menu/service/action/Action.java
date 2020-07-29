@@ -1,5 +1,12 @@
 package io.github.luxuryquests.menu.service.action;
 
+import io.github.luxuryquests.QuestsPlugin;
+import me.hyfe.simplespigot.annotations.Nullable;
+import me.hyfe.simplespigot.menu.Menu;
+import me.hyfe.simplespigot.text.Replacer;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.InventoryHolder;
+
 public abstract class Action {
     protected final String condition;
     protected final String value;
@@ -21,6 +28,19 @@ public abstract class Action {
                 return new SoundAction(condition, value);
             default:
                 return null;
+        }
+    }
+
+    public static void executeSimple(Player player, Iterable<Action> actions, @Nullable QuestsPlugin plugin, @Nullable Replacer replacer) {
+        for (Action action : actions) {
+            if (action instanceof MessageAction) {
+                ((MessageAction) action).accept(player, replacer);
+            } else if (action instanceof SoundAction) {
+                ((SoundAction) action).accept(player);
+            } else if (action instanceof MenuAction && plugin != null) {
+                InventoryHolder inventoryHolder = player.getOpenInventory().getTopInventory().getHolder();
+                ((MenuAction) action).accept(plugin.getMenuFactory(), inventoryHolder instanceof Menu ? (Menu) inventoryHolder : null, player);
+            }
         }
     }
 }

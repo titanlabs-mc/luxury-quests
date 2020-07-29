@@ -28,13 +28,13 @@ public class CompletionStep {
         this.lang = plugin.getLang();
     }
 
-    public void process(User user, Quest quest, SubQuest subQuest, int totalProgress, int progressIncrement, boolean overrideUpdate) {
+    public void process(User user, Quest quest, SubQuest subQuest, int originalProgress, int progressIncrement, boolean overrideUpdate) {
             Optional<Player> maybePlayer = Optional.ofNullable(Bukkit.getPlayer(user.getUuid()));
             int updatedProgress = overrideUpdate ?
                     this.controller.setSubQuestProgress(user, quest, subQuest, Math.min(progressIncrement, subQuest.getRequiredProgress()))
                     : this.controller.addSubQuestProgress(user, quest, subQuest, Math.min(progressIncrement, subQuest.getRequiredProgress()));
             for (int notifyAt : quest.getNotifyAt()) {
-                if (updatedProgress == notifyAt || (notifyAt > totalProgress && notifyAt < updatedProgress)) {
+                if (updatedProgress == notifyAt || (notifyAt > originalProgress && notifyAt < updatedProgress)) {
                     String message = this.lang.questProgressedMessage(quest, this.controller.getQuestProgress(user, quest));
                     String value = user.getOptionValue(UserOptionType.PROGRESS_NOTIFICATIONS).toLowerCase();
                     maybePlayer.ifPresent(player -> {
