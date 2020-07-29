@@ -102,7 +102,7 @@ public class QuestReset {
             this.plugin.wrappedScheduler().runDelay(ThreadContext.ASYNC, () -> {
                 QuestReset questReset = this.plugin.getResetStorage().load(this.resetId);
                 this.plugin.runSync(() -> this.currentQuests = questReset.getCurrentQuests());
-            }, 40);
+            }, 200);
             return;
         }
         this.userCache.asyncModifyAll(user -> user.getQuests().asMap().put(this.questType.getName(), Maps.newHashMap()));
