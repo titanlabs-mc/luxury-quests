@@ -56,7 +56,7 @@ public class MenuIllustrator {
                                     if (action instanceof MenuAction) {
                                         ((MenuAction) action).accept(menuFactory, menu, player);
                                     } else if (action instanceof MessageAction) {
-                                        ((MessageAction) action).accept(player);
+                                        ((MessageAction) action).accept(player, null);
                                     } else if (action instanceof SoundAction) {
                                         ((SoundAction) action).accept(player);
                                     } else if (action instanceof DynamicAction) {

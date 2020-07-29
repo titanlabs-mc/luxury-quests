@@ -33,7 +33,7 @@ public abstract class Reward<T>{
             if (action instanceof MenuAction) {
                 ((MenuAction) action).accept(plugin.getMenuFactory(), null, player);
             } else if (action instanceof MessageAction) {
-                ((MessageAction) action).accept(player);
+                ((MessageAction) action).accept(player, null);
             } else if (action instanceof SoundAction) {
                 ((SoundAction) action).accept(player);
             }

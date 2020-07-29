@@ -57,9 +57,6 @@ shadowJar {
 publishing {
     publications {
         maven(MavenPublication) {
-            groupId = 'io.github'
-            artifactId = 'luxuryquests'
-            version = pluginVersion
             from components.java
         }
     }
