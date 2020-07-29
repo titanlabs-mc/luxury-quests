@@ -25,10 +25,10 @@ public class TypeLoader {
     private final QuestsPlugin plugin;
     private final Path dataFolder;
     private final Storage<QuestReset> resetStorage;
-    private Map<String, QuestReset> questResets = Maps.newHashMap();
+    private final Map<String, QuestReset> questResets = Maps.newHashMap();
 
-    private static Set<QuestType> questTypes = Sets.newHashSet();
-    private static Set<ResetType> resetTypes = Sets.newHashSet();
+    private final static Set<QuestType> questTypes = Sets.newHashSet();
+    private final static Set<ResetType> resetTypes = Sets.newHashSet();
 
     public TypeLoader(QuestsPlugin plugin) {
         this.plugin = plugin;

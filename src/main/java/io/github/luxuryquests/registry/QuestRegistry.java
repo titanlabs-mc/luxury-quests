@@ -55,6 +55,7 @@ public class QuestRegistry implements Registry {
         this.registerHook("ASkyblock", ASkyblockQuests::new);
         this.registerHook("AuctionHouse", AuctionHouseKludgeQuests::new, "klugemonkey");
         this.registerHook("BedWars1058", BedWars1058Quests::new);
+        this.registerHook("KOTH", BenzimmerKothQuests::new, "benzimmer123");
         this.registerHook("BuildBattle", BuildBattleTigerQuests::new, "Tigerpanzer");
         this.registerHook("ChatReaction", ChatReactionQuests::new);
         //this.registerHook("ChestShop", ChestShopQuests::new, "https://github.com/ChestShop-authors/ChestShop-3/contributors", version -> !(version > 3.92));
@@ -68,6 +69,7 @@ public class QuestRegistry implements Registry {
         // this.registerHook("Factions", FactionsUuidQuests::new, "com.massivecraft.factions.event.FactionPlayerEvent");
         this.registerHook("Jobs", JobsQuests::new);
         this.registerHook("Lands", LandsQuests::new);
+        this.registerHook("LobbyPresents", LobbyPresentsPoompkQuests::new, "poompk");
         this.registerHook("KoTH", KothQuests::new);
         this.registerHook("MoneyHunters", MoneyHuntersQuests::new);
         this.registerHook("MythicMobs", MythicMobsQuests::new);
