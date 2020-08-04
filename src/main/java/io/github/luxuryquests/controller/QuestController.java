@@ -1,6 +1,5 @@
 package io.github.luxuryquests.controller;
 
-import com.google.common.collect.Maps;
 import io.github.luxuryquests.QuestsPlugin;
 import io.github.luxuryquests.cache.QuestCache;
 import io.github.luxuryquests.objects.quest.Quest;
@@ -14,6 +13,7 @@ import org.bukkit.entity.Player;
 
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -28,12 +28,12 @@ public class QuestController {
     /*
      * common
      */
-    private final Function<User, Map<String, Map<String, Map<String, Integer>>>> questMap = user -> user.getQuests().asMap();
+    private final Function<User, Map<String, ConcurrentHashMap<String, ConcurrentHashMap<String, Integer>>>> questMap = user -> user.getQuests().asMap();
 
     /*
      * quests
      */
-    public Map<String, Map<String, Integer>> getQuests(User user, QuestType questType) {
+    public Map<String, ConcurrentHashMap<String, Integer>> getQuests(User user, QuestType questType) {
         return this.questMap.apply(user).get(questType.getName());
     }
 
@@ -97,13 +97,13 @@ public class QuestController {
     }
 
     public boolean resetQuest(User user, Quest quest, boolean timedQuest) {
-        Map<String, Map<String, Integer>> quests = this.getQuests(user, quest.getType());
+        Map<String, ConcurrentHashMap<String, Integer>> quests = this.getQuests(user, quest.getType());
         if (quests == null) {
             return false;
         }
         quests.remove(quest.getId());
         if (timedQuest) {
-            Map<String, Map<String, TimedQuestData>> map = this.timedQuestMap(user);
+            Map<String, ConcurrentHashMap<String, TimedQuestData>> map = this.timedQuestMap(user);
             if (map == null || !map.containsKey(quest.getType().getName())) {
                 return false;
             }
@@ -114,7 +114,7 @@ public class QuestController {
 
     public int calculateCompletedQuests(User user) {
         int completed = 0;
-        for (Map.Entry<String, Map<String, Map<String, Integer>>> entry : user.getQuests().asMap().entrySet()) {
+        for (Map.Entry<String, ConcurrentHashMap<String, ConcurrentHashMap<String, Integer>>> entry : user.getQuests().asMap().entrySet()) {
             Optional<Map<String, Quest>> maybeQuests = this.questCache.get(entry.getKey());
             if (maybeQuests.isPresent()) {
                 for (String id : maybeQuests.get().keySet()) {
@@ -134,7 +134,7 @@ public class QuestController {
     public int getPercentageCategoryCompletion(User user, String category) {
         int quests = 0;
         int totalPercentage = 0;
-        Map<String, Map<String, Map<String, Integer>>> questStoreMap = user.getQuests().asMap();
+        Map<String, ConcurrentHashMap<String, ConcurrentHashMap<String, Integer>>> questStoreMap = user.getQuests().asMap();
         if (!questStoreMap.containsKey(category)) {
             return 0;
         }
@@ -147,7 +147,7 @@ public class QuestController {
 
     public int calculateCompletedQuests(User user, String category) {
         int completed = 0;
-        Map<String, Map<String, Map<String, Integer>>> questStoreMap = user.getQuests().asMap();
+        Map<String, ConcurrentHashMap<String, ConcurrentHashMap<String, Integer>>> questStoreMap = user.getQuests().asMap();
         if (!questStoreMap.containsKey(category)) {
             return 0;
         }
@@ -162,7 +162,7 @@ public class QuestController {
     /*
      * timed-quests
      */
-    public Map<String, Map<String, TimedQuestData>> timedQuestMap(User user) {
+    public Map<String, ConcurrentHashMap<String, TimedQuestData>> timedQuestMap(User user) {
         return user.getQuests().asTimedMap();
     }
 
@@ -233,10 +233,10 @@ public class QuestController {
     private void fillFailedIndexes(User user, Quest quest, String subId) {
         Predicate<FailedIndex> failedIndex = index -> this.failedIndex(user, quest, subId).equals(index);
         if (failedIndex.test(FailedIndex.TYPE_LAYER)) {
-            this.questMap.apply(user).put(quest.getType().getName(), Maps.newHashMap());
+            this.questMap.apply(user).put(quest.getType().getName(), new ConcurrentHashMap<>());
         }
         if (failedIndex.test(FailedIndex.QUEST_LAYER)) {
-            this.getQuests(user, quest.getType()).put(quest.getId(), Maps.newHashMap());
+            this.getQuests(user, quest.getType()).put(quest.getId(), new ConcurrentHashMap<>());
         }
         if (failedIndex.test(FailedIndex.SUBQUEST_LAYER)) {
             this.getQuests(user, quest.getType()).get(quest.getId()).put(subId, 0);

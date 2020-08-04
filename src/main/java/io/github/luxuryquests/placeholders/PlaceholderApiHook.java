@@ -10,17 +10,18 @@ import lombok.SneakyThrows;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.hyfe.simplespigot.uuid.FastUuid;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
+import org.bukkit.OfflinePlayer;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 import java.util.logging.Level;
 
-public class PlaceholderApiPlaceholders extends PlaceholderExpansion {
-    private final UserCache userCache;
-    private final QuestCache questCache;
-    private final QuestController questController;
+public class PlaceholderApiHook extends PlaceholderExpansion {
+    private UserCache userCache;
+    private QuestCache questCache;
+    private QuestController questController;
 
-    public PlaceholderApiPlaceholders(QuestsPlugin plugin) {
+    public PlaceholderApiHook(QuestsPlugin plugin) {
         this.userCache = plugin.getUserCache();
         this.questCache = plugin.getQuestCache();
         this.questController = plugin.getQuestController();
@@ -28,15 +29,15 @@ public class PlaceholderApiPlaceholders extends PlaceholderExpansion {
 
     @SneakyThrows
     @Override
-    public String onPlaceholderRequest(Player player, String placeholder) {
+    public String onRequest(OfflinePlayer offlinePlayer, String placeholder) {
         if (placeholder.equals("test")) {
             return "successful";
         }
-        if (player == null) {
-            Bukkit.getLogger().log(Level.WARNING, "Could not get placeholder ".concat(placeholder).concat(" for user ").concat(FastUuid.toString(player.getUniqueId())).concat(" (player null)"));
+        if (offlinePlayer == null) {
+            Bukkit.getLogger().log(Level.WARNING, "Could not get placeholder ".concat(placeholder).concat(" for user ").concat(FastUuid.toString(offlinePlayer.getUniqueId())).concat(" (player null)"));
             return "???";
         }
-        Optional<User> optionalUser = this.userCache.getSync(player.getUniqueId());
+        Optional<User> optionalUser = this.userCache.getSync(offlinePlayer.getUniqueId());
         if (!optionalUser.isPresent()) {
             return "??? User not present";
         }
@@ -77,17 +78,23 @@ public class PlaceholderApiPlaceholders extends PlaceholderExpansion {
     }
 
     @Override
-    public String getIdentifier() {
+    public @NotNull String getIdentifier() {
         return "luxuryquests";
     }
 
     @Override
-    public String getAuthor() {
+    public @NotNull String getAuthor() {
         return "Hyfe/Zak";
     }
 
     @Override
-    public String getVersion() {
+    public @NotNull String getVersion() {
         return "1.0";
+    }
+
+    public void reload(QuestsPlugin plugin) {
+        this.userCache = plugin.getUserCache();
+        this.questCache = plugin.getQuestCache();
+        this.questController = plugin.getQuestController();
     }
 }

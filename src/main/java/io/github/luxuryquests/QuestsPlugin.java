@@ -20,7 +20,7 @@ import io.github.luxuryquests.menu.MenuFactory;
 import io.github.luxuryquests.menu.service.MenuIllustrator;
 import io.github.luxuryquests.menu.service.action.Action;
 import io.github.luxuryquests.objects.user.User;
-import io.github.luxuryquests.placeholders.PlaceholderApiPlaceholders;
+import io.github.luxuryquests.placeholders.PlaceholderApiHook;
 import io.github.luxuryquests.quests.workers.QuestReset;
 import io.github.luxuryquests.quests.workers.pipeline.QuestPipeline;
 import io.github.luxuryquests.registry.ArgumentRegistry;
@@ -40,7 +40,6 @@ import java.nio.file.Path;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public final class QuestsPlugin extends SpigotPlugin {
     private static Api api;
@@ -59,9 +58,10 @@ public final class QuestsPlugin extends SpigotPlugin {
     private Storage<User> storage;
     private Storage<QuestReset> resetStorage;
     private Cache<String, Map<Integer, Set<Action>>> actionCache;
-    private AtomicInteger placeholderRuns = new AtomicInteger();
+    private PlaceholderApiHook placeholderApiHook;
     private Lang lang;
     private Api localApi;
+    private int placeholderRuns = 0;
 
     @Override
     public void onEnable() {
@@ -211,10 +211,11 @@ public final class QuestsPlugin extends SpigotPlugin {
 
     private void placeholders() {
         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-            new PlaceholderApiPlaceholders(this).register();
+            this.placeholderApiHook = new PlaceholderApiHook(this);
+            this.placeholderApiHook.register();
         }
-        if (this.placeholderRuns.intValue() < 10) {
-            this.placeholderRuns.getAndIncrement();
+        if (this.placeholderApiHook == null && this.placeholderRuns < 10) {
+            this.placeholderRuns++;
             Bukkit.getScheduler().runTaskLater(this, this::placeholders, 100);
         }
     }

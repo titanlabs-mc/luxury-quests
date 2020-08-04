@@ -23,6 +23,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
@@ -105,7 +106,7 @@ public class QuestReset {
             }, 200);
             return;
         }
-        this.userCache.asyncModifyAll(user -> user.getQuests().asMap().put(this.questType.getName(), Maps.newHashMap()));
+        this.userCache.asyncModifyAll(user -> user.getQuests().asMap().put(this.questType.getName(), new ConcurrentHashMap<>()));
         this.currentQuests.clear();
         int max = Math.min(this.questCache.getQuests(this.questType).size(), this.amount);
         int iterations = 0;
