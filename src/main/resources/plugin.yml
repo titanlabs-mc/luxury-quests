@@ -1,5 +1,5 @@
 name: LuxuryQuests
-version: 1.9
+version: 1.9-debug
 main: io.github.luxuryquests.QuestsPlugin
 api-version: 1.16
 authors: [Hyfe, Zak Shearman]

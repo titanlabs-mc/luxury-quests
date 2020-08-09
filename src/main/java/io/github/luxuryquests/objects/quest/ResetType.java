@@ -2,10 +2,12 @@ package io.github.luxuryquests.objects.quest;
 
 import io.github.luxuryquests.quests.workers.QuestReset;
 import me.hyfe.simplespigot.config.Config;
+import org.bukkit.Bukkit;
 
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.function.Function;
+import java.util.logging.Level;
 
 public class ResetType {
     private final String id;
@@ -40,6 +42,7 @@ public class ResetType {
         this.timeZone = ZoneId.of(config.string("settings.timezone"));
         this.resetTime = config.string("settings.reset-time");
         this.proxyMaster = !config.has("settings.master-proxy-sync") || config.bool("settings.master-proxy-sync");
+        Bukkit.getLogger().log(Level.SEVERE, "Proxy master of " + id + " set to " + this.proxyMaster);
         this.partner = partner;
         this.questReset = questReset;
     }

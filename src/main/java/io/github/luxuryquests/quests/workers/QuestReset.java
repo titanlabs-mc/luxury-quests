@@ -26,6 +26,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
+import java.util.logging.Level;
 
 public class QuestReset {
     private final QuestsPlugin plugin;
@@ -89,6 +90,7 @@ public class QuestReset {
         Bukkit.getScheduler().runTaskLater(this.plugin, () -> {
             this.reset();
             this.start();
+            Bukkit.getLogger().log(Level.SEVERE, "Scheduler has notified of reset for " + this.resetId);
             for (User user : this.plugin.getUserCache().values()) {
                 Player player = Bukkit.getPlayer(user.getUuid());
                 if (player != null && player.isOnline() && user.getBooleanOption(UserOptionType.RESET_NOTIFICATIONS)) {
@@ -99,13 +101,17 @@ public class QuestReset {
     }
 
     public void reset() {
+        Bukkit.getLogger().log(Level.SEVERE, "Reset has occurred for " + this.resetId + ". Is proxymaster? " + this.proxyMaster);
         if (!this.proxyMaster) {
+            Bukkit.getLogger().log(Level.SEVERE, "Start syncing async");
             this.plugin.wrappedScheduler().runDelay(ThreadContext.ASYNC, () -> {
                 QuestReset questReset = this.plugin.getResetStorage().load(this.resetId);
                 this.plugin.runSync(() -> this.currentQuests = questReset.getCurrentQuests());
+                Bukkit.getLogger().log(Level.SEVERE, "Syncing complete");
             }, 200);
             return;
         }
+        Bukkit.getLogger().log(Level.SEVERE, "Clearing all users " + this.questType + " quests and saving them");
         this.userCache.asyncModifyAll(user -> user.getQuests().asMap().put(this.questType.getName(), new ConcurrentHashMap<>()));
         this.currentQuests.clear();
         int max = Math.min(this.questCache.getQuests(this.questType).size(), this.amount);
