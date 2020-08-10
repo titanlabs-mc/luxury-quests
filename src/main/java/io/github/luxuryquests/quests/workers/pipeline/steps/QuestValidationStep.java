@@ -7,13 +7,16 @@ import io.github.luxuryquests.objects.quest.SubQuest;
 import io.github.luxuryquests.objects.quest.variable.QuestResult;
 import io.github.luxuryquests.objects.quest.variable.Variable;
 import io.github.luxuryquests.objects.user.User;
+import me.hyfe.simplespigot.service.Locks;
 import org.bukkit.entity.Player;
 
 import java.util.Collection;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class QuestValidationStep {
     private final CompletionStep completionStep;
     private final QuestController controller;
+    private final ReentrantLock questLock = Locks.newReentrantLock();
 
     public QuestValidationStep(QuestsPlugin plugin) {
         this.completionStep = new CompletionStep(plugin);
@@ -27,21 +30,30 @@ public class QuestValidationStep {
                 if (!name.equalsIgnoreCase(subQuest.getType())) {
                     continue;
                 }
-                Variable subVariable = subQuest.getVariable();
-                int subQuestProgress = this.controller.getSubQuestProgress(user, quest, subQuest);
-                if (overrideUpdate && subQuestProgress == progress) {
-                    continue;
-                }
-                if (subQuestProgress < subQuest.getRequiredProgress()
-                        && questResult.isEligible(player, subVariable)
-                        && this.controller.isTimedQuestValid(user, quest)
-                        && quest.getCompletionThreshold() <= user.getAtomicLiveCompletedQuests().intValue()
-                        && this.controller.areRequiredQuestsDone(user, quest)
-                        && this.controller.meetsCategoryRequirements(user, subQuest)
-                        && this.controller.hasRequiredPermissions(user, quest)) {
-                    this.completionStep.process(user, quest, subQuest, subQuestProgress, progress, overrideUpdate);
+                this.questLock.lock();
+                try {
+                    this.proceed(player, user, quest, subQuest, progress, questResult, overrideUpdate);
+                } finally {
+                    this.questLock.unlock();
                 }
             }
+        }
+    }
+
+    private void proceed(Player player, User user, Quest quest, SubQuest subQuest, int progress, QuestResult questResult, boolean overrideUpdate) {
+        Variable subVariable = subQuest.getVariable();
+        int subQuestProgress = this.controller.getSubQuestProgress(user, quest, subQuest);
+        if (overrideUpdate && subQuestProgress == progress) {
+            return;
+        }
+        if (subQuestProgress < subQuest.getRequiredProgress()
+                && questResult.isEligible(player, subVariable)
+                && this.controller.isTimedQuestValid(user, quest)
+                && quest.getCompletionThreshold() <= user.getAtomicLiveCompletedQuests().intValue()
+                && this.controller.areRequiredQuestsDone(user, quest)
+                && this.controller.meetsCategoryRequirements(user, subQuest)
+                && this.controller.hasRequiredPermissions(user, quest)) {
+            this.completionStep.process(user, quest, subQuest, subQuestProgress, progress, overrideUpdate);
         }
     }
 
