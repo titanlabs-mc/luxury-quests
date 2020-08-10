@@ -1,6 +1,5 @@
 package io.github.luxuryquests.objects.user;
 
-import com.google.common.collect.Maps;
 import io.github.luxuryquests.objects.quest.TimedQuest;
 
 import java.util.Map;
@@ -19,9 +18,12 @@ public class QuestStore {
     }
 
     public TimedQuestData createTimedQuestData(TimedQuest quest) {
+        String questType = quest.getType().getName();
         TimedQuestData timedQuestData = new TimedQuestData();
-        this.timedQuestData.put(quest.getType().getName(), new ConcurrentHashMap<>());
-        this.timedQuestData.get(quest.getType().getName()).put(quest.getId(), timedQuestData);
+        if (!this.timedQuestData.containsKey(questType)) {
+            this.timedQuestData.put(questType, new ConcurrentHashMap<>());
+        }
+        this.timedQuestData.get(questType).put(quest.getId(), timedQuestData);
         return timedQuestData;
     }
 }
