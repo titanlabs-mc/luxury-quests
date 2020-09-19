@@ -25,7 +25,7 @@ public class SmeltQuest extends QuestExecutor {
         ItemStack currentItem = event.getCurrentItem();
         ItemStack cursorItem = event.getCursor();
 
-        if (!event.getInventory().getType().equals(InventoryType.FURNACE)
+        if (!event.getInventory().getType().toString().contains("FURNACE")
                 || !event.getSlotType().equals(InventoryType.SlotType.RESULT)
                 || cursorItem == null
                 || currentItem == null) {
@@ -39,7 +39,7 @@ public class SmeltQuest extends QuestExecutor {
                 return;
             }
             amount = result;
-        } else if (currentItem.getType().equals(currentItem.getType()) && cursorItem.getAmount() + currentItem.getAmount() > currentItem.getMaxStackSize()) {
+        } else if (cursorItem.getType().equals(currentItem.getType()) && cursorItem.getAmount() + currentItem.getAmount() > currentItem.getMaxStackSize()) {
             return;
         }
 
